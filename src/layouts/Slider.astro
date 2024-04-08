@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sliders</title>
+    <!-- <link rel="stylesheet" href="estilos.css" /> -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;700&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Raleway', sans-serif;
+}
+
+.container{
+    width: 90%;
+    min-height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.slider{
+    background-color: #f2f2f2;
+    padding: 40px 0;
+}
+
+.slider__container{
+    display: grid;
+    grid-template-columns: 50px 1fr 50px;
+    align-items: center;
+    gap: 1em;
+}
+
+.slider__body{
+    grid-column: 2/3;
+    grid-row: 1/2;
+    opacity: 0;
+    pointer-events: none;
+    display: grid;
+    background-color: #f2f2f2;
+    grid-template-columns: 1fr max-content;
+    align-items: center;
+    transition: opacity 1.5s;
+}
+
+.slider__body--show{
+    opacity: 1;
+    pointer-events: unset;
+}
+
+.slider__texts{
+    max-width: 600px;
+}
+
+.subtitle{
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.slider__review{
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 1.7;
+}
+
+.slider__img{
+    width: 230px;
+    height: 230px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+}
+
+.slider__arrow{
+    cursor: pointer;
+    width: 90%;
+}
+
+.slider__arrow:nth-of-type(2){
+    justify-self: end;
+}
+
+@media (max-width:768px){
+    .slider__body{
+        grid-template-columns: 1fr;
+        grid-template-rows: max-content 1fr;
+        gap: 1em;
+    }
+
+    .slider__picture{
+        grid-row: 1/2;
+    }
+
+    .slider__img{   
+        width: 210px;
+        height: 210px;
+    }
+}
+
+@media (max-width:425px){
+    .slider__container{
+        grid-template-columns: 25px 1fr 25px;
+    }
+
+    .slider__arrow{
+       width: 100%;
+    }
+
+    .slider__img{   
+        width: 180px;
+        height: 180px;
+    }
+
+    .subtitle{
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+
+    .slider__review{
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+}
+    </style>
+  </head>
+
+  <body>
+    <section class="slider">
+      <div class="slider__container container">
+        <img src="/leftarrow.svg" class="slider__arrow" id="before" />
+
+        <section class="slider__body slider__body--show" data-id="1">
+          <div class="slider__texts">
+            <h2 class="subtitle">¡Hola! Mi nombre es Jordan Alexander</h2>
+            <p class="slider__review">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed
+              atque officiis totam modi, non maiores.
+            </p>
+          </div>
+
+          <figure class="slider__picture">
+            <img src="/picture1.jpg" class="slider__img" />
+          </figure>
+        </section>
+
+        <section class="slider__body" data-id="2">
+          <div class="slider__texts">
+            <h2 class="subtitle">¡Hola! Mi nombre es Alejandra Perez</h2>
+            <p class="slider__review">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam
+              nesciunt odio, nihil quibusdam autem nam in veritatis voluptas
+              nobis.
+            </p>
+          </div>
+
+          <figure class="slider__picture">
+            <img src="/picture2.jpg" class="slider__img" />
+          </figure>
+        </section>
+
+        <section class="slider__body" data-id="3">
+          <div class="slider__texts">
+            <h2 class="subtitle">¡Hola! Mi nombre es Pablo Gonzales</h2>
+            <p class="slider__review">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis
+              quis accusantium perferendis vel cumque illum quia totam
+              repellendus!
+            </p>
+          </div>
+
+          <figure class="slider__picture">
+            <img src="/picture3.jpg" class="slider__img" />
+          </figure>
+        </section>
+
+        <section class="slider__body" data-id="4">
+          <div class="slider__texts">
+            <h2 class="subtitle">¡Hola! Mi nombre es Pablo Gonzales 4</h2>
+            <p class="slider__review">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis
+              quis accusantium perferendis vel cumque illum quia totam
+              repellendus!
+            </p>
+          </div>
+
+          <figure class="slider__picture">
+            <img src="/picture1.jpg" class="slider__img" />
+          </figure>
+        </section>
+
+        <img src="/rightarrow.svg" class="slider__arrow" id="next" />
+      </div>
+    </section>
+
+    <!-- <script src="sliders.js"></script> -->
+    <script>
+      (function () {
+        const sliders = [...document.querySelectorAll(".slider__body")];
+        const arrowNext = document.querySelector("#next");
+        const arrowBefore = document.querySelector("#before");
+        let value;
+
+        arrowNext.addEventListener("click", () => changePosition(1));
+
+        arrowBefore.addEventListener("click", () => changePosition(-1));
+
+        function changePosition(change) {
+          const currentElement = Number(
+            document.querySelector(".slider__body--show").dataset.id
+          );
+          // 4+1 = 5
+          value = currentElement;
+          value += change;
+
+          console.log(sliders.length);
+          if (value === 0 || value == sliders.length + 1) {
+            value = value === 0 ? sliders.length : 1;
+          }
+
+          sliders[currentElement - 1].classList.toggle("slider__body--show");
+          sliders[value - 1].classList.toggle("slider__body--show");
+        }
+      })();
+    </script>
+  </body>
+</html>
